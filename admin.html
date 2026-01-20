@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - BUKHARA REST</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-page">
+    <!-- Admin Navigation -->
+    <nav class="admin-navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <i class="fas fa-cog"></i>
+                <span>Admin Panel</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="btn-secondary">← Saytga Qaytish</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Admin Sidebar -->
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('dashboard', event)" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="#" onclick="showSection('orders', event)"><i class="fas fa-receipt"></i> Buyurtmalar</a></li>
+                <li><a href="#" onclick="showSection('deliveries', event)"><i class="fas fa-truck"></i> Yetkazib Berish</a></li>
+                <li><a href="#" onclick="showSection('bookings', event)"><i class="fas fa-calendar"></i> Bronlar</a></li>
+                <li><a href="#" onclick="showSection('menu', event)"><i class="fas fa-utensils"></i> Menyu</a></li>
+                <li><a href="#" onclick="showSection('tables', event)"><i class="fas fa-chair"></i> Stollar</a></li>
+                <li><a href="#" onclick="showSection('customers', event)"><i class="fas fa-users"></i> Mijozlar</a></li>
+                <li><a href="#" onclick="showSection('statistics', event)"><i class="fas fa-bar-chart"></i> Statistika</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                        <div class="stat-content">
+                            <h3>Bugungi Buyurtmalar</h3>
+                            <p class="stat-number" id="todayOrders">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-content">
+                            <h3>Bugungi Bronlar</h3>
+                            <p class="stat-number" id="todayBookings">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="stat-content">
+                            <h3>Bugungi Daromad</h3>
+                            <p class="stat-number" id="todayRevenue">$0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-content">
+                            <h3>Jami Mehmonlar</h3>
+                            <p class="stat-number" id="totalGuests">0</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="admin-section">
+                <h2>Buyurtmalar Boshqaruvi</h2>
+                <div class="admin-tools">
+                    <select id="orderFilter" onchange="filterOrders()">
+                        <option value="all">Hammasi</option>
+                        <option value="pending">Kutmoqda</option>
+                        <option value="confirmed">Tasdiqlandi</option>
+                        <option value="completed">Tugallandi</option>
+                        <option value="cancelled">Bekor Qilindi</option>
+                    </select>
+                </div>
+                <table class="admin-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Raqam</th>
+                            <th>Xaridor</th>
+                            <th>Telefon</th>
+                            <th>Taomlar</th>
+                            <th>Summa</th>
+                            <th>Holati</th>
+                            <th>Vaqt</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <!-- Buyurtmalar shu yerga yuklanadi -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Bookings Section -->
+            <section id="bookings" class="admin-section">
+                <h2>Stol Bronlari</h2>
+                <div class="admin-tools">
+                    <select id="bookingFilter" onchange="filterBookings()">
+                        <option value="all">Hammasi</option>
+                        <option value="pending">Kutmoqda</option>
+                        <option value="confirmed">Tasdiqlandi</option>
+                        <option value="completed">Tugallandi</option>
+                    </select>
+                </div>
+                <table class="admin-table" id="bookingsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ismingiz</th>
+                            <th>Telefon</th>
+                            <th>Sana va Vaqt</th>
+                            <th>Mehmonlar</th>
+                            <th>Tadbir Turi</th>
+                            <th>Holati</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsBody">
+                        <!-- Bronlar shu yerga yuklanadi -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Menu Section -->
+            <section id="menu" class="admin-section">
+                <h2>Menyu Boshqaruvi</h2>
+                <button class="btn-primary" onclick="showAddMenuForm()">+ Yangi Taom Qo'shish</button>
+                
+                <div id="addMenuForm" class="form-container" style="display: none;">
+                    <h3>Yangi Taom Qo'shish</h3>
+                    <form id="menuForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="mealName">Taom Nomi</label>
+                                <input type="text" id="mealName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="mealCategory">Kategoriya</label>
+                                <select id="mealCategory" required>
+                                    <option value="main">Asosiy Taom</option>
+                                    <option value="appetizer">Ochildi Taom</option>
+                                    <option value="dessert">Shirinlik</option>
+                                    <option value="drink">Ichimlik</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="mealPrice">Narxi ($)</label>
+                                <input type="number" id="mealPrice" required min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="form-group full">
+                            <label for="mealDescription">Tavsiloti</label>
+                            <textarea id="mealDescription" required></textarea>
+                        </div>
+                        <div class="form-group full">
+                            <label for="mealImage">Rasm URL</label>
+                            <input type="url" id="mealImage" placeholder="https://...">
+                        </div>
+                        <button type="submit" class="btn-primary">Qo'shish</button>
+                        <button type="button" class="btn-secondary" onclick="closeAddMenuForm()">Bekor Qilish</button>
+                    </form>
+                </div>
+
+                <table class="admin-table" id="menuTable">
+                    <thead>
+                        <tr>
+                            <th>Nomi</th>
+                            <th>Kategoriya</th>
+                            <th>Narxi</th>
+                            <th>Tavsiloti</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuBody">
+                        <!-- Menyu shu yerga yuklanadi -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Tables Section -->
+            <section id="tables" class="admin-section">
+                <h2>Stollar Boshqaruvi</h2>
+                <button class="btn-primary" onclick="showAddTableForm()">+ Yangi Stol Qo'shish</button>
+                
+                <div id="addTableForm" class="form-container" style="display: none;">
+                    <h3>Yangi Stol Qo'shish</h3>
+                    <form id="tableForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="tableNumber">Stol Raqami</label>
+                                <input type="text" id="tableNumber" required placeholder="1, 2, 3...">
+                            </div>
+                            <div class="form-group">
+                                <label for="tableCapacity">O'rindiqlar Soni</label>
+                                <input type="number" id="tableCapacity" required min="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="tableLocation">Joylashuv</label>
+                                <input type="text" id="tableLocation" placeholder="Oyna yonida, Butkun, Ichkariga">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Qo'shish</button>
+                        <button type="button" class="btn-secondary" onclick="closeAddTableForm()">Bekor Qilish</button>
+                    </form>
+                </div>
+
+                <div class="tables-grid" id="tablesGrid">
+                    <!-- Stollar shu yerga yuklanadi -->
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section id="statistics" class="admin-section">
+                <h2>Statistika va Hisobotlar</h2>
+                <div class="stats-container">
+                    <div class="stat-box">
+                        <h3>Haftalik Buyurtmalar</h3>
+                        <canvas id="weeklyOrdersChart"></canvas>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Taom Kategoriyasi bo'yicha Buyurtmalar</h3>
+                        <div id="categoryStats">
+                            <!-- Kategoriya statistikasi -->
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Oymaning Daromadi</h3>
+                        <p class="stat-number" id="monthlyRevenue">0 UZS</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="admin-section">
+                <h2>Mijozlar Ro'yhati</h2>
+                <table class="admin-table" id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>To'liq Ism</th>
+                            <th>Telefon</th>
+                            <th>Email</th>
+                            <th>Manzil</th>
+                            <th>Buyurtmalar</th>
+                            <th>Jami Harchor</th>
+                            <th>Reyting</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersBody">
+                        <!-- Mijozlar shu yerga yuklanadi -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Deliveries Section -->
+            <section id="deliveries" class="admin-section">
+                <h2>Yetkazib Berish Boshqaruvi</h2>
+                <div class="admin-tools">
+                    <select id="deliveryFilter" onchange="filterDeliveries()">
+                        <option value="all">Hammasi</option>
+                        <option value="preparing">Tayyorlash Jarayonida</option>
+                        <option value="on-way">Yo'lda</option>
+                        <option value="delivered">Yetkazildi</option>
+                    </select>
+                </div>
+                <table class="admin-table" id="deliveriesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Xaridor</th>
+                            <th>Telefon</th>
+                            <th>Manzil</th>
+                            <th>Holati</th>
+                            <th>Tahmini Vaqt</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deliveriesBody">
+                        <!-- Yetkazib berilishlar shu yerga yuklanadi -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

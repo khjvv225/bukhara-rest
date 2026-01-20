@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zarafat Restoran - Tadbir va Ovqat Xizmati</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>🍽️ BUKHARA REST</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Bosh sahifa</a></li>
+                <li><a href="#menu">Menyu</a></li>
+                <li><a href="#booking">Stol Band Qilish</a></li>
+                <li><a href="#order">Buyurtma</a></li>
+                <li><a href="#cart" class="cart-link"><i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span></a></li>
+                <li><a href="customer-login.html" class="customer-link"><i class="fas fa-user"></i> Kabinet</a></li>
+                <li><a href="admin.html" class="admin-link"><i class="fas fa-cog"></i> Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>🌟 BUKHARA REST'ga Xush Kelibsiz</h1>
+            <p>Dunyoda eng mazzali taomlar va ajoyib atmosfera</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToMenu()">Menyu Ko'rish</button>
+                <button class="btn-secondary" onclick="scrollToBooking()">Stol Band Qilish</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2>🍽️ Bizning Menyu</h2>
+            <div class="menu-filter">
+                <button class="filter-btn active" onclick="filterMenu('all')">Hammasi</button>
+                <button class="filter-btn" onclick="filterMenu('main')">Asosiy Taomlar</button>
+                <button class="filter-btn" onclick="filterMenu('appetizer')">Ochildi Taomlar</button>
+                <button class="filter-btn" onclick="filterMenu('dessert')">Shirinlik</button>
+                <button class="filter-btn" onclick="filterMenu('drink')">Ichimlik</button>
+            </div>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menyu avtomatik yuklanadi -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Table Booking Section -->
+    <section id="booking" class="booking-section">
+        <div class="container">
+            <h2>📅 Stol Band Qilish</h2>
+            <div class="booking-form-container">
+                <form id="bookingForm" class="booking-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">To'liq Ismingiz</label>
+                            <input type="text" id="name" required placeholder="Abdullayev Abdulla">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon Raqami</label>
+                            <input type="tel" id="phone" required placeholder="+998 99 123-45-67">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Manzili</label>
+                            <input type="email" id="email" required placeholder="abdulla@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingDate">Sana</label>
+                            <input type="date" id="bookingDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookingTime">Vaqt</label>
+                            <input type="time" id="bookingTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="guests">Mehmonlar Soni</label>
+                            <select id="guests" required>
+                                <option value="">Tanlang</option>
+                                <option value="1">1 kishi</option>
+                                <option value="2">2 kishi</option>
+                                <option value="3">3 kishi</option>
+                                <option value="4">4 kishi</option>
+                                <option value="5">5 kishi</option>
+                                <option value="6">6 kishi</option>
+                                <option value="7">7 kishi</option>
+                                <option value="8">8 kishi</option>
+                                <option value="10">10 kishi</option>
+                                <option value="12">12 kishi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="occasion">Tadbir Turi</label>
+                            <select id="occasion" required>
+                                <option value="">Tanlang</option>
+                                <option value="normal">Odiy Bron</option>
+                                <option value="birthday">Tug'ilgan Kun</option>
+                                <option value="wedding">Nikoh</option>
+                                <option value="corporate">Korxona Tadbiri</option>
+                                <option value="anniversary">Yildonasi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full">
+                        <label for="notes">Izoh (ixtiyoriy)</label>
+                        <textarea id="notes" placeholder="Maxsus talablaringiz yoki izohlaringiz..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Bronni Tasdiqlash</button>
+                </form>
+                <div id="bookingSuccess" class="success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Stol Muvaffaqiyatli Band Qilindi!</h3>
+                    <p id="successMessage"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart & Order Section -->
+    <section id="order" class="order-section">
+        <div class="container">
+            <h2>🛒 Savat va Buyurtma</h2>
+            <div class="order-container">
+                <div class="cart-items">
+                    <h3>Savatdagi Taomlar</h3>
+                    <div id="cartItems" class="cart-list">
+                        <p class="empty-cart">Savat bo'sh</p>
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Jami Summa:</span>
+                            <span id="totalPrice" class="price">$0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-form">
+                    <h3>Buyurtma Shakli</h3>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label for="orderName">Ismingiz</label>
+                            <input type="text" id="orderName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="orderPhone">Telefon</label>
+                            <input type="tel" id="orderPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryType">Yetkazib Berish Turi</label>
+                            <select id="deliveryType" required>
+                                <option value="pickup">Shaxsan Olish</option>
+                                <option value="delivery">Yetkazib Berish</option>
+                                <option value="dine-in">Restoranda Yeyish</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="addressGroup" style="display: none;">
+                            <label for="address">Manzil</label>
+                            <input type="text" id="address" placeholder="Sizning manzil">
+                        </div>
+                        <div class="form-group">
+                            <label for="orderNotes">Izoh</label>
+                            <textarea id="orderNotes" placeholder="Buyurtmaga doir izohlar..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">Buyurtmani Jo'natish</button>
+                    </form>
+                    <div id="orderSuccess" class="success-message" style="display: none;">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Buyurtma Qabul Qilindi!</h3>
+                        <p id="orderSuccessMessage"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Manzil</h3>
+                    <p>Toshkent, Amir Temur ko'chasi, 123</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telefon</h3>
+                    <p>+998 71 123-45-67</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Ish Vaqti</h3>
+                    <p>11:00 - 23:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Zarafat Restoran. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- Menu Modal -->
+    <div id="menuModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

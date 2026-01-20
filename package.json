@@ -1,0 +1,19 @@
+{
+  "name": "bukhara-rest",
+  "version": "1.0.0",
+  "description": "BUKHARA REST - Restaurant Booking and Food Ordering System",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8080"
+  },
+  "keywords": [
+    "restaurant",
+    "booking",
+    "food-ordering",
+    "uzbek",
+    "uzs-currency"
+  ],
+  "author": "Restaurant Team",
+  "license": "MIT"
+}

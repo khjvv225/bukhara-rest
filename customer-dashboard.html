@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening Kabinet - BUKHARA REST</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="customer-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>🍽️ BUKHARA REST</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="btn-secondary">← Saytga Qaytish</a></li>
+                <li><a href="customer-login.html" class="btn-danger" onclick="logout(event)"><i class="fas fa-sign-out-alt"></i> Chiqish</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="customer-container">
+        <!-- Sidebar -->
+        <aside class="customer-sidebar">
+            <div class="customer-profile">
+                <div class="profile-avatar"><i class="fas fa-user-circle"></i></div>
+                <h3 id="customerName">Foydalanuvchi</h3>
+                <p id="customerPhone">+998 XX XXX XX XX</p>
+                <div class="profile-stats">
+                    <div class="stat"><strong id="totalOrders">0</strong> <br> Buyurtma</div>
+                    <div class="stat"><strong id="totalSpent">0</strong> <br> UZS</div>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" onclick="showSection('dashboard', event)" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#" onclick="showSection('orders', event)"><i class="fas fa-receipt"></i> Mening Buyurtmalari</a></li>
+                <li><a href="#" onclick="showSection('deliveries', event)"><i class="fas fa-truck"></i> Yetkazib Berilishlar</a></li>
+                <li><a href="#" onclick="showSection('bookings', event)"><i class="fas fa-calendar"></i> Mening Bronlari</a></li>
+                <li><a href="#" onclick="showSection('profile', event)"><i class="fas fa-user"></i> Profil</a></li>
+            </ul>
+        </aside>
+
+        <main class="customer-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="customer-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-receipt"></i></div>
+                        <div class="stat-content">
+                            <h3>Oxirgi Buyurtma</h3>
+                            <p id="lastOrderPrice">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-truck"></i></div>
+                        <div class="stat-content">
+                            <h3>Kursiuvi Yetkazilar</h3>
+                            <p id="activeDeliveries">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-content">
+                            <h3>Kelasi Bron</h3>
+                            <p id="nextBooking">-</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-star"></i></div>
+                        <div class="stat-content">
+                            <h3>Sizning Reytingi</h3>
+                            <p id="customerRating">⭐⭐⭐⭐⭐</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="customer-section">
+                <h2>Mening Buyurtmalari</h2>
+                <div class="orders-container" id="ordersContainer">
+                    <p class="empty-message">Buyurtmalari mavjud emas</p>
+                </div>
+            </section>
+
+            <!-- Deliveries Section -->
+            <section id="deliveries" class="customer-section">
+                <h2>Yetkazib Berilishlar Kuzatuvi</h2>
+                <div class="deliveries-container" id="deliveriesContainer">
+                    <p class="empty-message">Yetkazilar mavjud emas</p>
+                </div>
+            </section>
+
+            <!-- Bookings Section -->
+            <section id="bookings" class="customer-section">
+                <h2>Mening Stol Bronlari</h2>
+                <div class="bookings-container" id="bookingsContainer">
+                    <p class="empty-message">Bronlar mavjud emas</p>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="customer-section">
+                <h2>Profil Sozlamalari</h2>
+                <div class="profile-form-container">
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="customerNameInput">To'liq Ismingiz</label>
+                            <input type="text" id="customerNameInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhoneInput">Telefon Raqami</label>
+                            <input type="tel" id="customerPhoneInput" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerEmailInput">Email Manzili</label>
+                            <input type="email" id="customerEmailInput">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerAddressInput">Asosiy Yetkazib Berish Manzili</label>
+                            <input type="text" id="customerAddressInput" placeholder="To'liq manzil">
+                        </div>
+                        <button type="submit" class="btn-primary">O'zgarishlarni Saqlash</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="customer-script.js"></script>
+</body>
+</html>

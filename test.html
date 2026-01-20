@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - BUKHARA REST</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .test-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #8b4513;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #6b3410;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .test-result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .test-result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .test-result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-logo">
+                <span>🧪 TEST SAHIFASI</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="btn-secondary">← Asosiy Sayt</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="test-page">
+        <h1>🧪 BUKHARA REST - Test Sahifasi</h1>
+        
+        <div class="test-section">
+            <h2>📦 LocalStorage Test</h2>
+            <button class="test-button" onclick="testLocalStorage()">LocalStorage Tekshirish</button>
+            <button class="test-button" onclick="clearAllData()">Barcha Ma'lumotlarni O'chirish</button>
+            <button class="test-button" onclick="testDefaultData()">Default Data Yuklash</button>
+            <div id="storageResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🍽️ Menu Test</h2>
+            <button class="test-button" onclick="testMenu()">Menyu Tekshirish</button>
+            <button class="test-button" onclick="testFormatPrice()">formatPrice() Tekshirish</button>
+            <div id="menuResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>👥 Customer Test</h2>
+            <button class="test-button" onclick="testCustomerLogin()">Customer Login Simulyatsiyasi</button>
+            <button class="test-button" onclick="testCustomerData()">Customer Ma'lumotlarini Tekshirish</button>
+            <div id="customerResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📦 Order Test</h2>
+            <button class="test-button" onclick="testCreateOrder()">Test Order Yaratish</button>
+            <button class="test-button" onclick="testViewOrders()">Barcha Buyurtmalar</button>
+            <div id="orderResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📅 Booking Test</h2>
+            <button class="test-button" onclick="testCreateBooking()">Test Booking Yaratish</button>
+            <button class="test-button" onclick="testViewBookings()">Barcha Bronlar</button>
+            <div id="bookingResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🚚 Delivery Test</h2>
+            <button class="test-button" onclick="testViewDeliveries()">Barcha Yetkazib Berilishlar</button>
+            <button class="test-button" onclick="testDeliveryStatus()">Delivery Status Test</button>
+            <div id="deliveryResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>⚙️ Admin Functions Test</h2>
+            <button class="test-button" onclick="testAdminFunctions()">Admin Funksiyalari Tekshirish</button>
+            <div id="adminResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Summary</h2>
+            <button class="test-button" onclick="fullSystemTest()">BARCHA SISTEMANI TEKSHIRISH</button>
+            <div id="summaryResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const USD_TO_UZS = 12500;
+
+        function formatPrice(priceUSD) {
+            return (priceUSD * USD_TO_UZS).toLocaleString('uz-UZ');
+        }
+
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const div = document.createElement('div');
+                div.className = `test-result ${type}`;
+                div.innerHTML = `<strong>${type.toUpperCase()}:</strong> ${message}`;
+                element.appendChild(div);
+            }
+        }
+
+        function testLocalStorage() {
+            const result = document.getElementById('storageResult');
+            result.innerHTML = '';
+
+            const storageData = {
+                menu: localStorage.getItem('menu') ? 'mavjud ✓' : 'yo\'q ✗',
+                tables: localStorage.getItem('tables') ? 'mavjud ✓' : 'yo\'q ✗',
+                orders: localStorage.getItem('orders') ? 'mavjud ✓' : 'yo\'q ✗',
+                bookings: localStorage.getItem('bookings') ? 'mavjud ✓' : 'yo\'q ✗',
+                customers: localStorage.getItem('customers') ? 'mavjud ✓' : 'yo\'q ✗',
+                deliveries: localStorage.getItem('deliveries') ? 'mavjud ✓' : 'yo\'q ✗'
+            };
+
+            for (const [key, value] of Object.entries(storageData)) {
+                log('storageResult', `${key}: ${value}`, value.includes('✓') ? 'success' : 'error');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('Barcha ma\'lumotlarni o\'chirishga rozisizmi?')) {
+                localStorage.clear();
+                log('storageResult', 'Barcha ma\'lumotlar o\'chirildi', 'success');
+            }
+        }
+
+        function testDefaultData() {
+            const defaultMenu = [
+                { id: 1, name: "Manti", category: "main", priceUSD: 8.5, description: "Test", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop" },
+                { id: 2, name: "Palov", category: "main", priceUSD: 7.5, description: "Test", image: "https://images.unsplash.com/photo-1585521537556-0dadc4c32df9?w=400&h=300&fit=crop" }
+            ];
+            
+            const defaultTables = [
+                { id: 1, number: "1", capacity: 2, location: "Oyna yonida", status: "available" },
+                { id: 2, number: "2", capacity: 4, location: "Butkun", status: "available" }
+            ];
+
+            localStorage.setItem('menu', JSON.stringify(defaultMenu));
+            localStorage.setItem('tables', JSON.stringify(defaultTables));
+            localStorage.setItem('orders', JSON.stringify([]));
+            localStorage.setItem('bookings', JSON.stringify([]));
+            localStorage.setItem('customers', JSON.stringify([]));
+            localStorage.setItem('deliveries', JSON.stringify([]));
+
+            log('storageResult', 'Default ma\'lumotlar yuklandi', 'success');
+        }
+
+        function testMenu() {
+            const result = document.getElementById('menuResult');
+            result.innerHTML = '';
+
+            const menu = JSON.parse(localStorage.getItem('menu')) || [];
+            
+            if (menu.length === 0) {
+                log('menuResult', 'Menyu bo\'sh! Default data yuklang', 'error');
+                return;
+            }
+
+            log('menuResult', `Jami ${menu.length} ta taom`, 'success');
+            menu.forEach(item => {
+                log('menuResult', `${item.name}: ${item.priceUSD} USD = ${formatPrice(item.priceUSD)} UZS`, 'info');
+            });
+        }
+
+        function testFormatPrice() {
+            const result = document.getElementById('menuResult');
+            const prices = [1, 5, 10, 50, 100];
+            
+            prices.forEach(price => {
+                log('menuResult', `${price} USD = ${formatPrice(price)} UZS`, 'success');
+            });
+        }
+
+        function testCustomerLogin() {
+            const result = document.getElementById('customerResult');
+            result.innerHTML = '';
+
+            const customer = {
+                phone: '+998901234567',
+                name: 'Test Foydalanuvchi',
+                loginTime: new Date().toISOString()
+            };
+
+            localStorage.setItem('currentCustomer', JSON.stringify(customer));
+            log('customerResult', `Customer login qildi: ${customer.phone}`, 'success');
+        }
+
+        function testCustomerData() {
+            const result = document.getElementById('customerResult');
+            result.innerHTML = '';
+
+            const currentCustomer = JSON.parse(localStorage.getItem('currentCustomer'));
+            if (!currentCustomer) {
+                log('customerResult', 'Customer login qilmagan', 'error');
+                return;
+            }
+
+            let customers = JSON.parse(localStorage.getItem('customers')) || [];
+            const customer = customers.find(c => c.phone === currentCustomer.phone);
+            
+            if (customer) {
+                log('customerResult', `Ismi: ${customer.name}`, 'success');
+                log('customerResult', `Telefon: ${customer.phone}`, 'success');
+                log('customerResult', `Jami buyurtma: ${customer.totalOrders}`, 'success');
+                log('customerResult', `Jami xarajat: ${formatPrice(customer.totalSpent)} UZS`, 'success');
+            } else {
+                log('customerResult', 'Customer topilmadi', 'error');
+            }
+        }
+
+        function testCreateOrder() {
+            const result = document.getElementById('orderResult');
+            result.innerHTML = '';
+
+            const order = {
+                id: Date.now(),
+                name: 'Test Order',
+                phone: '+998901234567',
+                items: [
+                    { id: 1, name: 'Manti', priceUSD: 8.5, quantity: 2 }
+                ],
+                total: 17,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            log('orderResult', `Order yaratildi: #${order.id}`, 'success');
+            log('orderResult', `Jami: ${formatPrice(order.total)} UZS`, 'success');
+        }
+
+        function testViewOrders() {
+            const result = document.getElementById('orderResult');
+            result.innerHTML = '';
+
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            if (orders.length === 0) {
+                log('orderResult', 'Buyurtmalar yo\'q', 'error');
+                return;
+            }
+
+            log('orderResult', `Jami ${orders.length} ta buyurtma`, 'success');
+            orders.forEach(order => {
+                log('orderResult', `#${order.id} - ${formatPrice(order.total)} UZS - ${order.status}`, 'info');
+            });
+        }
+
+        function testCreateBooking() {
+            const result = document.getElementById('bookingResult');
+            result.innerHTML = '';
+
+            const booking = {
+                id: Date.now(),
+                name: 'Test Booking',
+                phone: '+998901234567',
+                date: new Date().toISOString().split('T')[0],
+                time: '18:00',
+                guests: '4',
+                occasion: 'normal',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+
+            log('bookingResult', `Bron yaratildi: #${booking.id}`, 'success');
+            log('bookingResult', `Sana: ${booking.date}, Vaqt: ${booking.time}`, 'success');
+        }
+
+        function testViewBookings() {
+            const result = document.getElementById('bookingResult');
+            result.innerHTML = '';
+
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            if (bookings.length === 0) {
+                log('bookingResult', 'Bronlar yo\'q', 'error');
+                return;
+            }
+
+            log('bookingResult', `Jami ${bookings.length} ta bron`, 'success');
+            bookings.forEach(booking => {
+                log('bookingResult', `#${booking.id} - ${booking.date} ${booking.time} - ${booking.guests} kishi`, 'info');
+            });
+        }
+
+        function testViewDeliveries() {
+            const result = document.getElementById('deliveryResult');
+            result.innerHTML = '';
+
+            const deliveries = JSON.parse(localStorage.getItem('deliveries')) || [];
+            if (deliveries.length === 0) {
+                log('deliveryResult', 'Yetkazib berilishlar yo\'q', 'error');
+                return;
+            }
+
+            log('deliveryResult', `Jami ${deliveries.length} ta yetkazib berish`, 'success');
+            deliveries.forEach(delivery => {
+                log('deliveryResult', `#${delivery.id} - ${delivery.status}`, 'info');
+            });
+        }
+
+        function testDeliveryStatus() {
+            const result = document.getElementById('deliveryResult');
+            result.innerHTML = '';
+
+            const deliveries = JSON.parse(localStorage.getItem('deliveries')) || [];
+            if (deliveries.length === 0) {
+                log('deliveryResult', 'Delivery yo\'q', 'error');
+                return;
+            }
+
+            const delivery = deliveries[0];
+            log('deliveryResult', `Delivery ID: ${delivery.id}`, 'info');
+            log('deliveryResult', `Holati: ${delivery.status}`, 'success');
+        }
+
+        function testAdminFunctions() {
+            const result = document.getElementById('adminResult');
+            result.innerHTML = '';
+
+            // Test formatPrice
+            log('adminResult', `formatPrice(10) = ${formatPrice(10)} UZS`, 'success');
+            
+            // Test menu functions exist
+            const menu = JSON.parse(localStorage.getItem('menu')) || [];
+            log('adminResult', `Menyu: ${menu.length} ta taom`, menu.length > 0 ? 'success' : 'error');
+
+            // Test orders exist
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            log('adminResult', `Buyurtmalar: ${orders.length} ta`, 'success');
+
+            // Test deliveries exist
+            const deliveries = JSON.parse(localStorage.getItem('deliveries')) || [];
+            log('adminResult', `Yetkazib berilishlar: ${deliveries.length} ta`, 'success');
+        }
+
+        function fullSystemTest() {
+            const result = document.getElementById('summaryResult');
+            result.innerHTML = '';
+
+            log('summaryResult', 'Sistem tekshiruvi boshlandi...', 'info');
+
+            // Test 1: LocalStorage
+            testLocalStorage();
+            log('summaryResult', '✓ LocalStorage tekshiruvi yakunlandi', 'success');
+
+            // Test 2: Menu
+            const menu = JSON.parse(localStorage.getItem('menu')) || [];
+            log('summaryResult', `✓ Menyu: ${menu.length} ta taom`, menu.length > 0 ? 'success' : 'error');
+
+            // Test 3: formatPrice
+            log('summaryResult', `✓ formatPrice: ${formatPrice(100)} UZS`, 'success');
+
+            // Test 4: Orders
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            log('summaryResult', `✓ Buyurtmalar: ${orders.length} ta`, 'success');
+
+            // Test 5: Bookings
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            log('summaryResult', `✓ Bronlar: ${bookings.length} ta`, 'success');
+
+            // Test 6: Customers
+            const customers = JSON.parse(localStorage.getItem('customers')) || [];
+            log('summaryResult', `✓ Mijozlar: ${customers.length} ta`, 'success');
+
+            // Test 7: Deliveries
+            const deliveries = JSON.parse(localStorage.getItem('deliveries')) || [];
+            log('summaryResult', `✓ Yetkazib berilishlar: ${deliveries.length} ta`, 'success');
+
+            log('summaryResult', '✅ BARCHA TESTLAR YAKUNLANDI', 'success');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            log('storageResult', 'Test sahifasi yuklandi', 'success');
+        });
+    </script>
+</body>
+</html>
